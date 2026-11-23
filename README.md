@@ -1,16 +1,22 @@
-# React + Vite
+﻿# CvSU Mini Store - Lab 4 Guide Questions
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### 1. Why use `searchText` and `debouncedSearch` instead of just one state?
+- **`searchText`** updates right away so typing in the input box feels smooth and instant.
+- **`debouncedSearch`** waits 300ms after you pause typing before updating, so the product list does not re-filter on every single keystroke.
 
-Currently, two official plugins are available:
+### 2. What would happen without a cleanup function in the debounce effect?
+- Old `setTimeout` timers from earlier keystrokes would stay active.
+- Those leftover timers could fire late and update `debouncedSearch` with outdated or unexpected text.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 3. What is the dependency array for, and what happens with `[]` or no array?
+- It tells React which values should trigger the effect to run again.
+- **`[]` (empty array):** Runs only once when the component first mounts.
+- **No dependency array:** Runs after every single render.
 
-## React Compiler
+### 4. Why should we avoid sorting the `products` array directly?
+- `.sort()` changes an array in place (it mutates it).
+- Sorting `products` directly would permanently change the original order and can cause bugs when resetting filters or viewing default order.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 5. Should the filtered list be in its own state or calculated during render?
+- Calculating it during render from existing state (`debouncedSearch`, `category`, `sortOrder`) is simpler and safer.
+- It avoids extra state variables that can go out of sync and keeps state as a single source of truth.
