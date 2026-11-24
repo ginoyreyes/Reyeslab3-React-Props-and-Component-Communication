@@ -1,4 +1,6 @@
-﻿function ProductCard({
+import "./ProductCard.css";
+
+function ProductCard({
   title,
   price,
   category = "General",
@@ -6,32 +8,47 @@
   onAddToCart,
   children,
 }) {
-  const formattedPrice = `₱${Number(price).toLocaleString("en-PH", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
-
   return (
-    <article className={`product-card ${!inStock ? "out-of-stock" : ""}`}>
-      {children && <div className="badge-slot">{children}</div>}
-      <span className="category-tag">{category}</span>
-      <h3 className="product-title">{title}</h3>
-      <p className="product-price">{formattedPrice}</p>
+    <div className={`product-card $DIL1`}>
+      {/* Special badge passed through children */}
+      {children && <div className="product-badge">{children}</div>}
 
-      <p className={`stock-status ${inStock ? "in-stock" : "out-of-stock-text"}`}>
-        {inStock ? "In Stock" : "Out of Stock"}
+      <div className="product-icon">
+        🛍️
+      </div>
+
+      <h3>{title}</h3>
+
+      <p className="product-category">{category}</p>
+
+      <p className="product-price">
+        ₱{price.toLocaleString("en-PH", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}
       </p>
 
+      {/* Conditional rendering for stock status */}
+      {inStock ? (
+        <span className="stock-status available">
+          ● In Stock
+        </span>
+      ) : (
+        <span className="stock-status unavailable">
+          ● Out of Stock
+        </span>
+      )}
+
+      {/* Button is disabled when out of stock */}
       <button
-        type="button"
-        className="add-btn"
+        className="add-to-cart-btn"
         disabled={!inStock}
         onClick={() => onAddToCart(title)}
       >
         {inStock ? "Add to Cart" : "Unavailable"}
       </button>
-    </article>
+    </div>
   );
 }
 
-export default ProductCard;
+export default ProductCard; 
