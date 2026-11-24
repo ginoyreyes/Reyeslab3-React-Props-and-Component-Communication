@@ -1,16 +1,25 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+# Laboratory Exercise 4
+## React useState and useEffect
 
-Currently, two official plugins are available:
+### Guide Questions
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**1. Why do we use two separate states, searchText and debouncedSearch, instead of only one?**
 
-## React Compiler
+We use searchText to store what the user is currently typing, while debouncedSearch stores the search value after the user stops typing for 300 milliseconds. This prevents the list from updating on every keystroke.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**2. What would happen if the debounce effect did not return a cleanup function?**
 
-## Expanding the Oxlint configuration
+Without a cleanup function, previous timers would not be canceled. Multiple timers could finish and update the search value unnecessarily.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+**3. What is the purpose of the dependency array? What happens if it is empty ([]) or left out completely?**
+
+The dependency array tells React when an effect should run. If it contains searchText, the effect runs whenever searchText changes. If it is empty, it runs only on the initial mount. If it is omitted, it runs after every render.
+
+**4. Why should we avoid sorting the original products array directly?**
+
+We should avoid sorting the original array because it changes the original data. Making a copy before sorting prevents unexpected changes in the product list.
+
+**5. Is the filtered product list better stored in its own state, or calculated from existing state during rendering? Explain your choice.**
+
+The filtered product list is better calculated from the existing state during rendering because it is derived from the search text, category, sorting order, and original products. This avoids duplicate state and unnecessary updates.
